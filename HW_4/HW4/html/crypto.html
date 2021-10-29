@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="donut_favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.7/css/all.css"
+    />
+    <link rel="stylesheet" href="../css/crypto_styles.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.js"></script>
+    <title>String Encrypter</title>
+
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div>
+      <h1>String Encrypter<i class="far fa-smile"></i></h1>
+      <h2>Original String:</h2>
+      <input type="text" id="input" placeholder="Type String Here" />
+      <button class="button" type="button" id="submit" onclick="crypt();">
+        Submit
+      </button>
+      <h3>AES Encrypted:<span id="aesOutput"></span></h3>
+      <h3>SHA1 Encrypted:</h3>
+      <p id="sha1Output"></p>
+      <h3>SHA224 Encrypted:</h3>
+      <p id="sha224Output"></p>
+      <h3>SHA256 Encrypted:</h3>
+      <p id="sha256Output"></p>
+      <h3>SHA3 Encrypted:</h3>
+      <p id="sha3Output"></p>
+      <h3>SHA512 Encrypted:</h3>
+      <p id="sha512Output"></p>
+      <h3>SHA384 Encrypted:</h3>
+      <p id="sha384Output"></p>
+
+      <h4>Binary to Decimal</h4>
+      <input type="text" id="b2d" placeholder="Type Binary Here" />
+      <button class="button" type="button" id="b2dButton" onclick="b2d();">
+        B2D
+      </button>
+      <br />
+      <p id="b2dOutput"></p>
+
+      <h4>Decimal to Binary</h4>
+      <input type="text" id="d2b" placeholder="Type Decimal Here" />
+      <button class="button" type="button" id="d2bButton" onclick="d2b();">
+        D2B
+      </button>
+      <p id="d2bOutput"></p>
+    </div>
+    <p id="display"></p>
+
+    <script>
+      function b2d() {
+        let input = document.getElementById("b2d").value;
+        if (empty(input)) {
+          return;
+        }
+
+        let exponent = input.length - 1;
+        var sum = 0;
+        var v = 0;
+        for (var i = 0; i < input.length; i++) {
+          v = parseInt(input.charAt(i));
+          sum += v * Math.pow(2, exponent);
+          exponent--;
+        }
+        document.getElementById("b2dOutput").innerHTML = sum.toString();
+      }
+
+      function d2b() {
+        let input = document.getElementById("d2b").value;
+        if (empty(input)) {
+          return;
+        }
+        input = parseInt(input);
+        let binary = "";
+        while (input >= 1) {
+          binary += (input % 2).toString();
+          input = Math.floor(input / 2);
+        }
+        document.getElementById("d2bOutput").innerHTML = reverse(binary);
+      }
+
+      function reverse(backwards) {
+        let str = "";
+        for (var i = backwards.length - 1; i >= 0; i--) {
+          str += backwards.charAt(i);
+        }
+        return str;
+      }
+
+      function crypt() {
+        let msg = document.getElementById("input").value;
+        if (empty(msg)) {
+          return;
+        }
+        let password = "SECRET";
+        document.getElementById("aesOutput").innerHTML = CryptoJS.AES.encrypt(
+          msg,
+          password
+        );
+        document.getElementById("sha1Output").innerHTML = CryptoJS.SHA1(msg);
+        document.getElementById("sha224Output").innerHTML =
+          CryptoJS.SHA224(msg);
+        document.getElementById("sha256Output").innerHTML =
+          CryptoJS.SHA256(msg);
+        document.getElementById("sha3Output").innerHTML = CryptoJS.SHA3(msg);
+        document.getElementById("sha512Output").innerHTML =
+          CryptoJS.SHA512(msg);
+        document.getElementById("sha384Output").innerHTML =
+          CryptoJS.SHA384(msg);
+      }
+
+      function empty(ui) {
+        if (ui == "" || ui == null) {
+          alert("Input box is empty");
+          return true;
+        } else {
+          return false;
+        }
+      }
+    </script>
+  </body>
+</html>
